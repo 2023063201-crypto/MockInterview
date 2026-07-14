@@ -107,6 +107,9 @@ export default function App() {
   }, []);
 
   const handleGoogleLogin = async () => {
+    if (authLoading) return;
+    setAuthLoading(true);
+    setAuthError('');
     const provider = new GoogleAuthProvider();
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     try {
@@ -117,9 +120,12 @@ export default function App() {
       }
       setShowAuthModal(false);
     } catch (error: any) {
-      if (error.code !== 'auth/popup-closed-by-user') {
+      if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {
         console.error("Authentication error:", error);
+        setAuthError(error.message);
       }
+    } finally {
+      setAuthLoading(false);
     }
   };
 
