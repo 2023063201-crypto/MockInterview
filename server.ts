@@ -3,6 +3,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
+import "dotenv/config";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -112,8 +113,11 @@ async function startServer() {
       });
 
       res.json(JSON.parse(result.text || '{"text": "Could you tell me more about your experience?", "isCodeSnippet": false, "hint": "Think about your background."}'));
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      if (e.message?.includes("API key not valid") || e.status === "INVALID_ARGUMENT") {
+        return res.status(500).json({ error: "Invalid Gemini API Key. Please provide a valid key in your settings." });
+      }
       res.json({ text: "Could you tell me more about your experience?", isCodeSnippet: false, hint: "Think about your background." });
     }
   });
