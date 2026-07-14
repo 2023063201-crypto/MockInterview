@@ -1,0 +1,5 @@
+{
+  "name": "AI Smart Mock Interview",
+  "description": "An intelligent mock interview platform that simulates real-time technical and HR interviews with AI-driven feedback and adaptive difficulty.",
+  "requestFramePermissions": ["microphone"]
+}

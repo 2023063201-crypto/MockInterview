@@ -1,0 +1,41 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user profile information and preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "email": { "type": "string", "description": "The user's email address." },
+        "photoURL": { "type": "string", "description": "The user's profile photo URL." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the profile was created." }
+      },
+      "required": ["uid", "email"]
+    },
+    "InterviewSession": {
+      "title": "Interview Session",
+      "description": "Stores details of a single mock interview session.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The UID of the user who took the interview." },
+        "domain": { "type": "string", "description": "The interview domain (e.g., Software Development)." },
+        "status": { "type": "string", "enum": ["ongoing", "completed"], "description": "The current status of the interview." },
+        "questions": { "type": "array", "items": { "type": "object" }, "description": "The list of questions and responses." },
+        "feedback": { "type": "object", "description": "The final feedback and scores." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the interview was started." }
+      },
+      "required": ["uid", "domain", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/interviews/{interviewId}": {
+      "schema": "InterviewSession",
+      "description": "Mock interview session documents."
+    }
+  }
+}
